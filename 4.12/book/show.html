@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>展示</title>
+</head>
+<body>
+	<table border="1">
+	<tr>
+		<td>ID</td>
+		<td>书名</td>
+		<td>作者</td>
+		<td>状态</td>
+		<td>简介</td>
+		<td>操作</td>
+	</tr>
+	<tbody id="list">
+	
+	</tbody>
+	</table>
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+<script>
+//ajax显示数据
+    $(function () {
+    	$.ajax({
+    		url: "http://127.0.0.1:8080/book",
+    		type: "get",
+    		dataType: "json",
+    		success:function(e){
+    			
+    			$.each(e.Data,function(k, v){
+                     var tr = $('<tr></tr>');
+                     tr.append('<td>'+v.ID+'</td><td>'+v.BookName+'</td><td>'+v.Author+'</td><td>'+v.Status+'</td>\
+                          <td>'+v.Descs+'</td><td><a href="add.html">添加</a>\
+                          | <a href="javascript:void(0)" id="del" where="'+v.ID+'"">删除</a> \
+                          | <a href="edit.html?id='+v.ID+'">修改</a></td>');                   	
+                     $("#list").append(tr)
+    			})
+    		}
+    	})
+    } )
+//ajax删除
+$(document).on('click',"#del",function(){
+	var id = $(this).attr("where");
+	$(this).parents('tr').empty();
+	$.ajax({
+		url: "http://127.0.0.1:8080/book/"+id,	
+		type: "DELETE",
+		dataType: "json",
+		success:function(e) {
+			
+		}
+	})
+})
+
+
+
+
+</script>
+

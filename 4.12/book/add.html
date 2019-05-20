@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>添加</title>
+</head>
+<body>
+	<table>
+	<tr>
+		<td>书名</td>
+		<td><input type="text" id="BookName"></td>
+	</tr>
+	<tr>
+		<td>作者</td>
+		<td><input type="text" id="Author"></td>
+	</tr>
+	<tr>
+		<td>状态</td>
+		<td><input type="radio" value="1" checked="true" name="Status">发布
+		<input type="radio" value="0" name="Status">未发布</td>
+	</tr>
+	<tr>
+		<td>描述</td>
+		<td><textarea name="" id="Descs" cols="30" rows="10"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input type="button" value="提交" id="btn"></td>
+		
+	</tr>
+	</table>
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+<script>
+    //ajax添加
+    $(document).on('click','#btn',function(){
+    	var BookName = $("#BookName").val();
+    	var Author = $("#Author").val();
+    	var Status=$('input:radio[name="Status"]:checked').val();
+    	var Descs = $("#Descs").val();
+        $.ajax({
+        	url: "http://127.0.0.1:8080/book",
+        	data: {BookName:BookName, Author:Author, Status:Status, Descs:Descs},
+        	type: "post",
+        	dataType: "json",
+        	success:function(e){
+                 if(e.Code == 200) {
+                 	location.href = 'show.html'
+                 }
+        	}
+        })
+    })
+
+</script>
